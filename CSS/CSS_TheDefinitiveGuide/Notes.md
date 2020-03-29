@@ -866,6 +866,251 @@ aside {
 
 
 
+## 0x05 Fonts
+
+### 字体族
+
+`Font Family` 是一个集合 
+
+比如说`Times`字体 他有很多变体 `TimesRegular TimesBold TimesItalic TimesBoldItalic` 都来自一个 字形 `Font Face`
+
+CSS 定义了五种通用字体族
+
+- 衬线字体
+- 无衬线字体
+- 等宽字体
+- 草书字体
+- 奇幻字体
+
+
+
+#### 使用通用字体族
+
+```css
+font-family: <family-name> | <generic-family>
+```
+
+#### 指定字体族
+
+直接写名称就行了
+
+如果没有这个字体 可以增加字体候选项
+
+```css
+h1 {
+    font-family: Georgia, serif;
+}
+```
+
+用户代理会按顺序查找字体
+
+如果字体名称中含有一个或者多个空格 或者有符号 
+
+甚至是名称与`CSS`中的关键字相同
+
+请使用**引号**
+
+```css
+h2 {
+    font-family: Wedige, 'Karrank%';
+}
+```
+
+
+
+### @font-face
+
+自定义字体可以通过该属性 链接到其他资源
+
+```css
+@font-face {
+    font-family: 'SwitzeraADF';
+    src: url("SwitzeraADF-Regular.otf");
+}
+```
+
+对于资源的`url` 可以使用多个以便防止资源失效
+
+使用`local()`查找用户是否已经安装 如没有则继续查找
+
+如果提前知道资源链接的文件是什么格式的 可以加上`format()` 
+
+方便用户代理识别不支持的格式 减少流量 带宽
+
+```css
+@font-face {
+    font-family: 'Dadada';
+    src: local("Dadada"),
+         url("Lalalal.otf") format("opentype"),
+         url("memeda.true") format("truetype");
+}
+```
+
+支持的类型如下
+
+| 格式                | 值                             |
+| ------------------- | ------------------------------ |
+| `embedded-opentype` | EOT (Embedded Opentype)        |
+| `opentype`          | OTF (OpenType)                 |
+| `svg`               | SVG (Scalable Vector Graphics) |
+| `truetype`          | TTF (TrueType)                 |
+| `woff`              | WOFF (Web Open Font Format)    |
+
+如果对字体有更多的要求 可以使用如下的属性
+
+| 描述符                  | 默认值         | 说明                                           |
+| ----------------------- | -------------- | ---------------------------------------------- |
+| `font-style`            | `normal`       | 常规 斜体 倾斜                                 |
+| `font-weight`           | `normal`       | 字重                                           |
+| `font-stretch`          | `normal`       | 字符宽度                                       |
+| `font-variant`          | `normal`       | 区分字形变体                                   |
+| `font-feature-settings` | `normal`       | 访问`OpenTpe`的底层特性                        |
+| `unicode-range`         | `U+0 - 10FFFF` | 定义指定字体中可用的字符范围 以`,`隔开多个氛围 |
+
+
+
+#### 字重 `font-weight`
+
+
+
+取值 `normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 900`
+
+
+
+#### 字号
+
+取值 `xx-small | x-small | small | medium | large | x-large | xx-large | smaller | larger | <length> | <percentage>`
+
+
+
+关键字值都是绝对值的大小 具体参数可以到CSS3的标准上看
+
+百分数 `100%`与`1em`的大小是一样的
+
+
+
+##### 自动调整字号
+
+`font-size-adjust`
+
+取值有`<number> | none | auto`
+
+
+
+#### 字形
+
+`font-style`的取值仅有`normal`常规 `italic`斜体 `oblique`倾斜体
+
+对于后两个 需要进行区分
+
+- 斜体
+  - 是一种不同的**字型**
+- 倾斜体
+  - 是普通体的倾斜版本
+
+
+
+####  字体拉伸 `font-stretch`
+
+`normal | ultra-condensed |  extra-condensed | condensed | semi-condensed | expanded | extra-expanded | ultra-expanded`
+
+不同的字体宽度
+
+需要字体支持不同的宽度
+
+
+
+##### 字距调整 `font-kerning`
+
+取值有 `auto | normal | none`
+两个字符之间的距离
+
+
+
+#### 字体变形 `font-variant`
+
+默认值`normal`
+
+也可取 `small-caps` 小一点的大写字母
+
+在`CSS 3` 中的取值非常多
+
+一般是由以下几个组成的
+
+- `font-variant-ligatures`
+- `font-variant-caps`
+- `font-variant-numeric`
+- `font-variant-alternates`
+- `font-variant-east-asian`
+
+具体请查看相关的规范
+
+
+
+#### 字体特性 `font-feature-settings`
+
+默认值 `normal`
+
+其他值 `<feature-tag-value>` 具体格式为 `<string> | <inter> | on | off`
+所有`<string>`必须放在`""`里面
+
+- `calt`
+  - 根据上下文替换
+- `ccmp`
+  - 组合字符
+- `clig`
+  - 根据上下文连字
+- `liga`
+  - 标准连字
+- `locl`
+  - 本地化形式
+- `mark`
+  - 基本定位标记
+- `mkmk`
+  - 标记定位标记
+- `rlig`
+  - 必要的连字
+
+可能还会默认开启其他的特性 例如启用竖排文本的`vert`
+
+
+
+### font
+
+**TODO**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
