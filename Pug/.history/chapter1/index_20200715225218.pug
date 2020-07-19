@@ -1,0 +1,9 @@
+<!-- 本例使用 CSS flex 实现瀑布流布局 -->
+<!-- 关键点，横向flex布局嵌套多列纵向flex布局，使用了 vw 进行自适应缩放 -->
+
+div.g-container
+    -for(var i = 0; i<4; i++)
+        div.g-queue
+            -for(var j = 0; j<8; j++)
+                div.g-item
+
