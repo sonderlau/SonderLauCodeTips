@@ -669,7 +669,7 @@ for a new 'line'"
 
 #### 计算值
 
-`cal()` 为了进行数学计算 
+`calc()` 为了进行数学计算 
 
 允许的运算有 `+ - * / ()`
 
@@ -1075,17 +1075,81 @@ h2 {
 
 
 
-### font
+### font 属性
 
-**TODO**
-
-
-
-
+```css
+font: font-style font-variant font-weight font-size/line-height font-family |caption|icon|menu|message-box|small-caption|status-bar|initial|inherit;
+```
 
 
 
+综合了多个属性的一个属性 因为单独设置比较繁琐 用一个属性会比较方便
 
+
+
+
+
+---
+
+
+
+## 0x06 文本属性
+
+### 缩进 行内对齐
+
+#### 首行缩进
+
+```css
+text-indent: <length> | <percentage>
+```
+
+指定第一行文本的缩进长度 **可以是负值**
+
+只能用在块级元素上 缩进将沿着行内方向展开
+
+[^缩进行内元素]: 可以使用内边距或者外边距 `padding margin`
+
+
+
+#### 文本对齐
+
+```css
+text-align: start | end | left | right | center | justify ;
+```
+
+该元素只能用于块级元素
+
+- `left right center`
+  - 文本居左 居右 居中 特别注意部分纵向书写的语言 `left right`分别对应着起边和终边
+  - 该属性只控制**元素内 内容的对齐 不对元素本身有影响**
+- `justify`
+  - 两端对齐 即两边都与父元素的边界对齐
+
+
+
+#### 尾行缩进
+
+```css
+text-align-last: auto | start | end | left | right | center | justify ;
+```
+
+除了块级元素的最后一行 使用`<br>`导致的换行 也会让`<br>`前的那一行 也应用该属性
+
+[^TIP]:如果一行既是第一行 也是最后一行 尾行缩进`text-align-last`的优先级会大于`text-align`
+
+ 
+
+### 块级对齐
+
+#### 行的高度
+
+```css
+line-height: <number> | <length> | <percentage> | normal;
+```
+
+225
+
+ 
 
 
 
