@@ -1,0 +1,18 @@
+.color-main {
+  color: #ff0000;
+}
+
+header .logo {
+  font-size: 12px;
+}
+
+.container {
+  width: 1200px;
+  background-color: black;
+}
+
+.logo {
+  float: left;
+}
+
+/*# sourceMappingURL=common.css.map */

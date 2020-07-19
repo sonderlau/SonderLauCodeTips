@@ -1,0 +1,22 @@
+@charset "UTF-8";
+@import 'sassConfig';
+
+.color-main{
+    color:$nice;
+}
+
+header{
+    .logo{
+        font-size: $nice_size;
+    }
+}
+
+header {
+    &.logo{
+        font-size: $nice_size;
+    }
+}
+
+.container{
+    width: $container;
+}
