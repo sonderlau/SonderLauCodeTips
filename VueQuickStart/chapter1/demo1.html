@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Demo</title>
+</head>
+<body>
+    <div id="app">
+
+        <h1>{{title}}</h1>
+
+
+        <button @click="randomTitle()">改变实例</button>
+        <button @click="destroyVm()">销毁实例</button>
+
+    </div>
+
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script>
+
+        const vm = new Vue({
+
+            el: '#app',
+            data() {
+              return {
+                  title : 'Hello World !'
+              }
+            },
+
+            methods : {
+                randomTitle () {
+                    this.title = 'Hello' + ['China','World','Universe'] [Math.floor(Math.random() * 2.9999 )]
+                },
+                destroyVm () {
+                    this.$destroy()
+                }
+            },
+
+            beforeCreate () {
+                console.log('before create')
+            },
+
+            created() {
+                console.log('created')
+            },
+
+            beforeMount () {
+                console.log('before mount')
+            },
+
+            mounted () {
+                console.log('mounted')
+            },
+
+            beforeUpdate(){
+                console.log('before update')
+            },
+
+            updated(){
+                console.log('updated')
+            },
+
+            beforeDestroy(){
+                console.log('before destroy')
+            },
+
+            destroyed () {
+                console.log('destroyed')
+            }
+
+
+        });
+
+    </script>
+</body>
+</html>
