@@ -513,9 +513,9 @@ function functionName (arg0, arg1, ... argN) {
 
 需要注意的是
 
-- 不能把函数命名为 `eval` 或 `arguments`
-- 不能把参数命名为 `eval` 或 `arguments`
-- 不能出现两个命名参数同名的情况
+- 不能把**函数**命名为 `eval` 或 `arguments`
+- 不能把**参数**命名为 `eval` 或 `arguments`
+- 不能出现**两个命名参数同名**的情况
 
 
 
@@ -525,9 +525,412 @@ function functionName (arg0, arg1, ... argN) {
 
 
 
-## 0x04 变量 作用域和内存问题
+## 0x04 变量 作用域
+
+### 基本类型 与 引用类型的问题
+
+#### 动态属性
+
+```javascript
+var person = new Object();
+persone.name = "SonderLau";
+alert(person.name);
+
+// 基本类型的值 是不能添加属性的
+var name = "Dapao";
+name.age = 40;
+alert(name.age); // undefined
+```
+
+
+
+#### 复制变量值
+
+基本类型的值复制 是将值赋值
+
+而对象的复制 是对象引用的赋值
+
+```javascript
+var obj1 = new Object();
+var obj2 = obj1;
+obj1.name = "Nicholas";
+alert(obj2.name); //"Nicholas"
+```
+
+
+
+![image-20200331111152015](Javascript高级程序设计语言Ver3_images/image-20200331111152015.png)
+
+
+
+#### 传递参数
+
+传递参数的时候 是把值赋值给局部变量
+
+
+
+#### 作用域
+
+```javascript
+var color = "blue";
+function changeColor(){ 
+    var anotherColor = "red"; 
+    function swapColors(){
+		var tempColor = anotherColor;
+        anotherColor = color;
+        color = tempColor;
+		// 这里可以访问 color、anotherColor 和 tempColor 
+    }
+	// 这里可以访问 color 和 anotherColor，但不能访问 tempColor swapColors();
+}
+// 这里只能访问 color changeColor();
+```
+
+
 
 ## 0x05 引用类型
+
+### Object 类型
+
+创建一个`Object`类型的对象 有两种方式
+
+```javascript
+var person = new Object ();
+person.name = "Sonder";
+person.age = 29;
+```
+
+另一种是用**对象字面量**的表示法
+
+```javascript
+var person = {
+    name : "Sonder",
+    age : 29
+};
+```
+
+访问一个对象的属性使用点表示法 也可用方括号
+
+```javascript
+person.name;
+person["name"];
+var name = "name";
+person[name];
+```
+
+
+
+### Array 类型
+
+创建一个`Array` 即数组  使用新建对象的方法
+
+```javascript
+var colors = new Array();
+var colors = new Array(20); // 提前知道长度
+var colors = new Array("red","blue","green"); // 新建的时候就可以存储元素
+```
+
+ 数组的长度 `colors.length`
+
+这个属性 **不是只读的** 所以 `JavaScript`的数组长度是动态的
+
+同时修改这个参数 可以增加数组的长度和减小长度
+
+
+
+#### 检测数组
+
+```javascript
+if (value instanceof Array) {
+    
+}
+
+if (Array.isArray(value)) {
+    
+}
+```
+
+
+
+`instanceof`操作符的局限性在于 不同的框架传入的数组 或者不同构造函数的数组 会导致两个不同的接结果
+
+因此 ES5 中新增了一个方法 可以用来检测是不是数组
+
+
+
+#### 栈方法
+
+栈是一种 LIFO (Last-In-First-Out 后进先出) 的数据结构
+
+```javascript
+var colors = new Array();
+var count = colors.push ("red","green");
+count; // 2
+count = colors.push("black");
+count; //3
+
+var item = colors.pop();
+item; // "black"
+colors.length; // 2
+```
+
+
+
+#### 队列方法
+
+队列数据结构的访问规则是 FIFO (First-In-First-Out)
+
+```javascript
+var colors = new Array();
+var count = colors.push("red","green");
+count; // 2
+
+count = colors.push("black");
+count; // 3
+
+var item = colors.shift();
+item; // "red"
+colors.length; // 2
+
+// unshift() 方法可以在前端添加
+colors.unshift("blue");
+```
+
+
+
+#### 重排序
+
+数组中有两个方法 `reverse()` `sort()` 
+
+```javascript
+var values = [1, 2, 3, 4, 5];
+value.reverse();
+value; // 5,4,3,2,1
+
+var values = [0, 1, 5, 10, 15];
+values.sort();
+values; // 0 1 10 15 5
+```
+
+
+
+`sort()`方法不像我们对于数的大小一般进行排序 
+
+如果需要对大小进行排序 可以DIY一个排序函数
+
+```javascript
+function compare (value1, value2) {
+    if (value1 < value2){
+        return -1;
+    } else if (value1 > value2) {
+        return 1;
+    }else {
+        return 0;
+    }
+}
+
+var values = [0, 1, 5, 10, 15];
+values.sort(compare);
+values; // 0 1 5 10 15
+```
+
+
+
+#### 操作方法
+
+##### 拼接
+
+```javascript
+var colors = ["red","green","blue"];
+var colorsEdited = colors.concat("yellow", ["black","brown"]);
+
+alert(colors);  //red,green,blue 
+alert(colorsEdited); //red,green,blue,yellow,black,brown
+```
+
+##### 剪切
+
+```javascript
+var colors = ["red", "green", "blue", "yellow", "purple"]; 
+var colors2 = colors.slice(1); 
+var colors3 = colors.slice(1,4);
+alert(colors2); //green,blue,yellow,purple
+alert(colors3); //green,blue,yellow
+```
+
+注意到 是类似于数学中 `( ]` 的区间 取右不取左
+
+如果参数中有负数，那么将用数组的长度与负数相加 进行选取
+
+```javascript
+colors.slice(-2, -1);
+colors.slice(3, 4);
+```
+
+这两个调用的结果是一样的
+
+##### 删除 插入 替换 :: spllice()
+
+```javascript
+var colors = ["red", "green", "blue"]; 
+var removed = colors.splice(0,1); 
+// 删除第一项
+alert(colors);
+// green,blue 
+alert(removed); 
+// red，返回的数组中只包含一项
+
+removed = colors.splice(1, 0, "yellow", "orange"); 
+// 从位置 1 开始插入两项 
+alert(colors); 
+// green,yellow,orange,blue 
+alert(removed);
+// 返回的是一个空数组
+
+removed = colors.splice(1, 1, "red", "purple"); 
+// 插入两项，删除一项
+alert(colors);
+// green,red,purple,orange,blue
+alert(removed);
+// yellow，返回的数组中只包含一项
+```
+
+其语法如下 `array.splice(start[, deleteCount[, item1[, item2[, ...]]]])`
+
+指定起始位置 删除元素的个数 后面的参数则是需要插入的新元素
+
+对调用的数组产生改变 返回删除的元素
+
+
+
+#### 位置方法
+
+`indexOf()` `lastIndexOf()`
+
+分别查找某个元素在数组中从起点开始 第一次出现的位置和 从结尾开始第一次出现的位置
+
+
+
+#### 迭代方法
+
+5个迭代方法 每个方法接受2个参数
+
+- (可选)要在每一项运行的函数 该函数有三个参数
+  - 数组项的值
+  - 该项在数组中的位置
+  - 数组对象本身
+- 运行该函数的作用域对象 **影响`this`的值**
+
+
+
+五个迭代方法的作用
+
+- `every()` 对数组中的每一项运行指定函数 如果每一项都返回`true` 则返回`true`
+- `filter()` 对数组中的每一项运行指定函数 返回该函数会返回`true`的项组成的数组
+- `forEach()` 对数组中的每一项运行给定函数 无返回值
+- `map()` 对数组中的每一项运行给定函数 返回每次函数调用的结果组成的数组
+- `some()` 对数组中的每一项运行给定函数 如果存在有一项返回`true` 则返回`true`
+
+其中比较相似的是`every()`和`some()` 类似于数学中的$\forall \ \exists$这两个符号
+
+```javascript
+var number = [1,2,3,4,5,6,7];
+
+var everyResult = number.every(function (item, index, array){
+    return item > 2;
+})
+everyResult; // false
+
+var someResult = number.some(function (item, index, array){
+    return item > 2;
+})
+someResult; // true
+```
+
+`filter()`根据字面意思 就是用来筛选的
+
+```javascript
+var numbers = [1,2,3,4,5,4,3,2,1];
+
+var filterResult = numbers.filter(function (item, index, array){
+    return item > 2;
+})
+
+filterResult; // [3,4,5,4,3]
+```
+
+`map()`是对原来函数每一项进项对应函数操作的操作
+
+```javascript
+var number = [1,2,3,4,5];
+
+var mapResult = number.map(function (item, index, array){
+    return item * 2;
+})
+
+mapResult; // [2,4,6,8,10]
+```
+
+`forEach()` 对于学过其他语言的应该比较熟悉 即进行简单的遍历 **没有返回值**
+
+```javascript
+var number = [1,2,3,4,5];
+
+number.forEach(function (item, index, array){
+    // do something...
+})
+```
+
+
+
+#### 归并方法
+
+`reduce()`  和 `reduceRight()`
+
+两个方法类似 遍历所有的项 构建一个最终返回值
+
+第一个是正序 第二个是倒序
+
+接受四个参数
+
+- 前一个之
+- 当前值
+- 项的索引
+- 数组对象
+
+```javascript
+var values = [1,2,3,4,5];
+
+var sum = values.reduce(function (prev, cur, index, array){
+    return prev + cur;
+})
+
+sum; // 15
+```
+
+
+
+### Date 对象
+
+创建一个Date对象 只需要`new`一个即可
+
+```javascript
+var now = new Date();
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 0x06 面向对象的程序设计
 
